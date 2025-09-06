@@ -3,270 +3,770 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Age Calculator</title>
+    <title>Modern Age Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        * {
             margin: 0;
             padding: 0;
-            background-color: #f4f4f9;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
             color: #333;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            font-weight: 600;
-        }
-
-        .panel {
-            background: #fff;
+            min-height: 100vh;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 4px 8px 50px rgba(0, 0, 0, 0.4);
+        }
+        
+        .container {
             width: 100%;
-            max-width: 600px;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 24px;
-        }
-
-        form {
-            display: grid;
-            gap: 15px;
-        }
-
-        .form-group {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .form-group label {
-            font-size: 14px;
-            width: 30%;
-        }
-
-        .dob-fields, .age-at-fields {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-        }
-
-        .dob-fields select, .dob-fields input[type="number"],
-        .age-at-fields select, .age-at-fields input[type="number"] {
-            width: 28%;
-            padding: 8px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        input[type="submit"] {
-            padding: 10px 20px;
-            background: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: 700;
-        }
-
-        input[type="submit"]:hover {
-            background: #0056b3;
-        }
-
-        .result {
-            margin-top: 20px;
-            padding: 10px;
-            background: #f1f4fd;
-            border: 2px solid green;
-            border-radius: 5px;
-            color: green;
-            width: 96%;
-            height: 200px;
+            max-width: 800px;
             display: flex;
             flex-direction: column;
-            justify-content: space-evenly;
-            font-size: 16px;
-            overflow-y: auto;
+            gap: 30px;
         }
-
-        .result p {
-            margin: 0;
-            font-size: 16px;
-        }
-
-        .age-bold {
-            font-weight: bold;
-            color: #720340;
-        }
-
         
+        .panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .panel:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 32px;
+            color: #2d3748;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #6a11cb, #2575fc);
+            border-radius: 2px;
+        }
+        
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .date-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .date-section h3 {
+            margin-bottom: 15px;
+            color: #2d3748;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .date-section h3 i {
+            color: #6a11cb;
+        }
+        
+        .date-fields {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .field label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+        
+        select, input[type="number"] {
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        select:focus, input[type="number"]:focus {
+            outline: none;
+            border-color: #6a11cb;
+            box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.1);
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 14px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-calculate {
+            background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-calculate:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(106, 17, 203, 0.3);
+        }
+        
+        .btn-reset {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+        
+        .btn-reset:hover {
+            background: #e2e8f0;
+        }
+        
+        .result-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .age-display {
+            text-align: center;
+            padding: 25px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(106, 17, 203, 0.2);
+        }
+        
+        .age-display h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .main-age {
+            font-size: 42px;
+            font-weight: 700;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .main-age span {
+            font-size: 24px;
+            font-weight: 500;
+        }
+        
+        .detailed-results {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .result-box {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .result-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        .result-box h4 {
+            font-size: 14px;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+        
+        .result-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2d3748;
+        }
+        
+        .additional-info {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+        
+        .additional-info h3 {
+            margin-bottom: 15px;
+            color: #2d3748;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .additional-info h3 i {
+            color: #6a11cb;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .info-item i {
+            color: #6a11cb;
+            font-size: 20px;
+        }
+        
+        .info-text {
+            font-size: 14px;
+            color: #4a5568;
+        }
+        
+        .info-text strong {
+            color: #2d3748;
+        }
+        
+        @media (max-width: 768px) {
+            .calculator-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .detailed-results {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .date-fields {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .next-birthday {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f0f9ff;
+            border-radius: 12px;
+            border-left: 4px solid #0ea5e9;
+        }
+        
+        .next-birthday h4 {
+            color: #0c4a6e;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .next-birthday p {
+            color: #0369a1;
+            font-size: 14px;
+        }
+        
+        .next-birthday .countdown {
+            font-weight: 700;
+            font-size: 16px;
+            color: #0c4a6e;
+        }
+        
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            transform: rotate(30deg);
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .theme-toggle i {
+            font-size: 24px;
+            color: white;
+        }
+        
+        /* Dark theme */
+        body.dark-theme {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+        
+        body.dark-theme .panel {
+            background: rgba(30, 41, 59, 0.95);
+            color: #e2e8f0;
+        }
+        
+        body.dark-theme h1 {
+            color: #e2e8f0;
+        }
+        
+        body.dark-theme .date-section {
+            background: rgba(15, 23, 42, 0.5);
+        }
+        
+        body.dark-theme .date-section h3 {
+            color: #e2e8f0;
+        }
+        
+        body.dark-theme .field label {
+            color: #cbd5e1;
+        }
+        
+        body.dark-theme select, 
+        body.dark-theme input[type="number"] {
+            background: #1e293b;
+            border-color: #334155;
+            color: #e2e8f0;
+        }
+        
+        body.dark-theme .btn-reset {
+            background: #334155;
+            color: #cbd5e1;
+        }
+        
+        body.dark-theme .btn-reset:hover {
+            background: #475569;
+        }
+        
+        body.dark-theme .result-box {
+            background: rgba(15, 23, 42, 0.5);
+        }
+        
+        body.dark-theme .result-box h4 {
+            color: #cbd5e1;
+        }
+        
+        body.dark-theme .result-value {
+            color: #e2e8f0;
+        }
+        
+        body.dark-theme .additional-info {
+            background: rgba(15, 23, 42, 0.5);
+        }
+        
+        body.dark-theme .additional-info h3 {
+            color: #e2e8f0;
+        }
+        
+        body.dark-theme .info-item {
+            background: #1e293b;
+        }
+        
+        body.dark-theme .info-text {
+            color: #cbd5e1;
+        }
+        
+        body.dark-theme .info-text strong {
+            color: #e2e8f0;
+        }
+        
+        body.dark-theme .next-birthday {
+            background: rgba(14, 165, 233, 0.1);
+            border-left-color: #0ea5e9;
+        }
+        
+        body.dark-theme .next-birthday h4 {
+            color: #e0f2fe;
+        }
+        
+        body.dark-theme .next-birthday p {
+            color: #bae6fd;
+        }
+        
+        body.dark-theme .next-birthday .countdown {
+            color: #e0f2fe;
+        }
     </style>
+</head>
+<body>
+    <div class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <div class="container">
+        <div class="panel">
+            <h1><i class="fas fa-calculator"></i> Advanced Age Calculator</h1>
+            
+            <div class="calculator-grid">
+                <div class="input-section">
+                    <div class="date-section">
+                        <h3><i class="fas fa-birthday-cake"></i> Date of Birth</h3>
+                        <div class="date-fields">
+                            <div class="field">
+                                <label for="dob-month">Month</label>
+                                <select id="dob-month" onchange="updateDays('dob')">
+                                    <option value="1">January</option>
+                                    <option value="2">February</option>
+                                    <option value="3">March</option>
+                                    <option value="4">April</option>
+                                    <option value="5">May</option>
+                                    <option value="6">June</option>
+                                    <option value="7">July</option>
+                                    <option value="8">August</option>
+                                    <option value="9">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+                                </select>
+                            </div>
+                            
+                            <div class="field">
+                                <label for="dob-day">Day</label>
+                                <select id="dob-day"></select>
+                            </div>
+                            
+                            <div class="field">
+                                <label for="dob-year">Year</label>
+                                <input type="number" id="dob-year" placeholder="Year" min="1900" max="2100" onchange="updateDays('dob')" />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="date-section">
+                        <h3><i class="fas fa-calendar-alt"></i> Calculate Age As Of</h3>
+                        <div class="date-fields">
+                            <div class="field">
+                                <label for="ageAt-month">Month</label>
+                                <select id="ageAt-month" onchange="updateDays('ageAt')">
+                                    <option value="1">January</option>
+                                    <option value="2">February</option>
+                                    <option value="3">March</option>
+                                    <option value="4">April</option>
+                                    <option value="5">May</option>
+                                    <option value="6">June</option>
+                                    <option value="7">July</option>
+                                    <option value="8">August</option>
+                                    <option value="9">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+                                </select>
+                            </div>
+                            
+                            <div class="field">
+                                <label for="ageAt-day">Day</label>
+                                <select id="ageAt-day"></select>
+                            </div>
+                            
+                            <div class="field">
+                                <label for="ageAt-year">Year</label>
+                                <input type="number" id="ageAt-year" placeholder="Year" min="1900" max="2100" onchange="updateDays('ageAt')" />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="buttons">
+                        <button class="btn btn-calculate" onclick="calculateAge()">
+                            <i class="fas fa-calculator"></i> Calculate Age
+                        </button>
+                        <button class="btn btn-reset" onclick="resetForm()">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="result-section">
+                    <div class="age-display">
+                        <h2>Your Age Is</h2>
+                        <div class="main-age" id="mainAge">-- <span>years</span></div>
+                        <div id="exactAge">-- years -- months -- days</div>
+                    </div>
+                    
+                    <div class="detailed-results">
+                        <div class="result-box">
+                            <h4>Months</h4>
+                            <div class="result-value" id="months">--</div>
+                        </div>
+                        <div class="result-box">
+                            <h4>Weeks</h4>
+                            <div class="result-value" id="weeks">--</div>
+                        </div>
+                        <div class="result-box">
+                            <h4>Days</h4>
+                            <div class="result-value" id="days">--</div>
+                        </div>
+                        <div class="result-box">
+                            <h4>Hours</h4>
+                            <div class="result-value" id="hours">--</div>
+                        </div>
+                    </div>
+                    
+                    <div class="next-birthday" id="nextBirthday">
+                        <h4><i class="fas fa-birthday-cake"></i> Next Birthday</h4>
+                        <p>Your next birthday is in <span class="countdown" id="birthdayCountdown">-- days</span></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="additional-info">
+                <h3><i class="fas fa-info-circle"></i> Additional Information</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <i class="fas fa-moon"></i>
+                        <div class="info-text">You've experienced <strong id="sleeps">--</strong> nights</div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-heart"></i>
+                        <div class="info-text">Your heart has beaten approx. <strong id="heartbeats">--</strong> times</div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-brain"></i>
+                        <div class="info-text">You've had approx. <strong id="dreams">--</strong> dreams</div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-bread-slice"></i>
+                        <div class="info-text">You've eaten approx. <strong id="meals">--</strong> meals</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-    
         const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        let isDarkTheme = false;
         
+        // Initialize the calculator
+        window.onload = function() {
+            // Set default dates (current date for ageAt, and a sample birth date)
+            const currentDate = new Date();
+            setDateValues('dob', 6, 15, 1990); // Sample birth date: June 15, 1990
+            setDateValues('ageAt', currentDate.getMonth() + 1, currentDate.getDate(), currentDate.getFullYear());
+            
+            // Add options to day dropdowns
+            updateDays('dob');
+            updateDays('ageAt');
+            
+            // Add theme toggle functionality
+            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+        };
         
-        function updateDays(selectId) {
-            const selectElement = document.querySelector(`#${selectId}`);
-            const month = parseInt(document.querySelector(`#${selectId.replace('-day', '-month')}`).value) - 1;
-            const year = parseInt(document.querySelector(`#${selectId.replace('-day', '-year')}`).value);
+        function setDateValues(prefix, month, day, year) {
+            document.getElementById(`${prefix}-month`).value = month;
+            document.getElementById(`${prefix}-day`).innerHTML = '';
+            document.getElementById(`${prefix}-year`).value = year;
+        }
+        
+        function updateDays(prefix) {
+            const daySelect = document.getElementById(`${prefix}-day`);
+            const month = parseInt(document.getElementById(`${prefix}-month`).value) - 1;
+            const year = parseInt(document.getElementById(`${prefix}-year`).value);
             
-            
-            selectElement.innerHTML = '';
-            
+            daySelect.innerHTML = '';
             
             let days = daysInMonth[month];
             
-            
+            // Check for leap year if February
             if (month === 1) {
                 if ((year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0)) {
-                    days = 29; 
+                    days = 29;
                 }
             }
-
             
             for (let i = 1; i <= days; i++) {
                 const option = document.createElement("option");
                 option.value = i;
                 option.textContent = i;
-                selectElement.appendChild(option);
+                daySelect.appendChild(option);
+            }
+            
+            // Set the day to 1 if it's out of range
+            if (daySelect.value > days) {
+                daySelect.value = 1;
             }
         }
-        function calculateAge(event) {
-            event.preventDefault();
-
-            const dobMonth = parseInt(document.querySelector("#dob-month").value);
-            const dobDay = parseInt(document.querySelector("#dob-day").value);
-            const dobYear = parseInt(document.querySelector("#dob-year").value);
-            const ageAtMonth = parseInt(document.querySelector("#ageAt-month").value);
-            const ageAtDay = parseInt(document.querySelector("#ageAt-day").value);
-            const ageAtYear = parseInt(document.querySelector("#ageAt-year").value);
-
-            if (isNaN(dobMonth) || isNaN(dobDay) || isNaN(dobYear) || isNaN(ageAtMonth) || isNaN(ageAtDay) || isNaN(ageAtYear)) {
-                alert("Please enter valid dates.");
+        
+        function calculateAge() {
+            const dobMonth = parseInt(document.getElementById("dob-month").value);
+            const dobDay = parseInt(document.getElementById("dob-day").value);
+            const dobYear = parseInt(document.getElementById("dob-year").value);
+            const ageAtMonth = parseInt(document.getElementById("ageAt-month").value);
+            const ageAtDay = parseInt(document.getElementById("ageAt-day").value);
+            const ageAtYear = parseInt(document.getElementById("ageAt-year").value);
+            
+            // Validate inputs
+            if (isNaN(dobMonth) || isNaN(dobDay) || isNaN(dobYear) || 
+                isNaN(ageAtMonth) || isNaN(ageAtDay) || isNaN(ageAtYear)) {
+                showError("Please enter valid dates.");
                 return;
             }
-
+            
             const dob = new Date(dobYear, dobMonth - 1, dobDay);
             const ageAtDate = new Date(ageAtYear, ageAtMonth - 1, ageAtDay);
-
+            
+            // Check if birth date is in the future
+            if (dob > ageAtDate) {
+                showError("Birth date cannot be in the future of the 'Age as of' date.");
+                return;
+            }
+            
             let years = ageAtDate.getFullYear() - dob.getFullYear();
             let months = ageAtDate.getMonth() - dob.getMonth();
             let days = ageAtDate.getDate() - dob.getDate();
-
+            
             if (days < 0) {
                 months--;
-                days += new Date(ageAtDate.getFullYear(), ageAtDate.getMonth(), 0).getDate(); 
+                days += new Date(ageAtDate.getFullYear(), ageAtDate.getMonth(), 0).getDate();
             }
-
+            
             if (months < 0) {
                 years--;
                 months += 12;
             }
-
-            const totalDays = Math.floor((ageAtDate - dob) / (1000 * 60 * 60 * 24)); 
-            const totalMonths = Math.floor(totalDays / 30.44); 
-            const totalWeeks = Math.floor(totalDays / 7); 
-            const totalHours = totalDays * 24;
-            const totalMinutes = totalHours * 60; 
-            const totalSeconds = totalMinutes * 60;
-
-        
-            const monthsAndDays = `${totalMonths} months, ${Math.floor((totalDays % 30.44) / 7)} week(s), and ${totalDays % 7} day(s)`;
-            const weeksAndDays = `${totalWeeks} week(s) and ${totalDays % 7} day(s)`;
-
-            document.querySelector("#result").innerHTML = `
-                <p class="age-bold">Age as of the selected date: ${years} years ${months} months ${days} days</p>
-                <p><strong>Age in Months:</strong> ${monthsAndDays}</p>
-                <p><strong>Age in Weeks:</strong> ${weeksAndDays}</p>
-                <p><strong>Age in Days:</strong> ${totalDays} days</p>
-                <p><strong>Age in Hours:</strong> ${totalHours} hours</p>
-                <p><strong>Age in Minutes:</strong> ${totalMinutes} minutes</p>
-                <p><strong>Age in Seconds:</strong> ${totalSeconds} seconds</p>
-            `;
-        }
-
-        window.onload = function() {
-            document.querySelector("#dob-month").value = 6;
-            document.querySelector("#dob-day").value = 8;
-            document.querySelector("#dob-year").value = 1981;
-            updateDays("dob-day"); 
-            const currentDate = new Date();
-            document.querySelector("#ageAt-month").value = currentDate.getMonth() + 1;
-            document.querySelector("#ageAt-day").value = currentDate.getDate();
-            document.querySelector("#ageAt-year").value = currentDate.getFullYear();
-            updateDays("ageAt-day"); 
-        };
-    </script>
-</head>
-<body>
-
-<div class="panel">
-    <h1>Age Calculator</h1>
-    <form onsubmit="calculateAge(event)">
-        <div class="form-group">
-            <label for="dob-month">Date of Birth:</label>
-            <div class="dob-fields">
-                <select id="dob-month" onchange="updateDays('dob-day')">
-                    <option value="1">January</option>
-                    <option value="2">February</option>
-                    <option value="3">March</option>
-                    <option value="4">April</option>
-                    <option value="5">May</option>
-                    <option value="6">June</option>
-                    <option value="7">July</option>
-                    <option value="8">August</option>
-                    <option value="9">September</option>
-                    <option value="10">October</option>
-                    <option value="11">November</option>
-                    <option value="12">December</option>
-                </select>
-
-                <select id="dob-day">
-                
-                </select>
-
-                <input type="number" id="dob-year" placeholder="Year" min="1900" onchange="updateDays('dob-day')" />
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="ageAt-month">Age as of:</label>
-            <div class="age-at-fields">
-                <select id="ageAt-month" onchange="updateDays('ageAt-day')">
-                    <option value="1">January</option>
-                    <option value="2">February</option>
-                    <option value="3">March</option>
-                    <option value="4">April</option>
-                    <option value="5">May</option>
-                    <option value="6">June</option>
-                    <option value="7">July</option>
-                    <option value="8">August</option>
-                    <option value="9">September</option>
-                    <option value="10">October</option>
-                    <option value="11">November</option>
-                    <option value="12">December</option>
-                </select>
-
-                <select id="ageAt-day">
             
-                </select>
-
-                <input type="number" id="ageAt-year" placeholder="Year" min="1900" onchange="updateDays('ageAt-day')" />
-            </div>
-        </div>
-
-        <input type="submit" value="Calculate Age" />
-    </form>
-
-    <div id="result" class="result"></div>
-</div>
-
+            const totalDays = Math.floor((ageAtDate - dob) / (1000 * 60 * 60 * 24));
+            const totalMonths = Math.floor(totalDays / 30.44);
+            const totalWeeks = Math.floor(totalDays / 7);
+            const totalHours = totalDays * 24;
+            
+            // Update the UI with calculated values
+            document.getElementById("mainAge").innerHTML = `${years} <span>years</span>`;
+            document.getElementById("exactAge").textContent = `${years} years ${months} months ${days} days`;
+            document.getElementById("months").textContent = totalMonths.toLocaleString();
+            document.getElementById("weeks").textContent = totalWeeks.toLocaleString();
+            document.getElementById("days").textContent = totalDays.toLocaleString();
+            document.getElementById("hours").textContent = totalHours.toLocaleString();
+            
+            // Calculate additional info
+            document.getElementById("sleeps").textContent = totalDays.toLocaleString();
+            document.getElementById("heartbeats").textContent = Math.round(totalHours * 60 * 70).toLocaleString();
+            document.getElementById("dreams").textContent = Math.round(totalDays * 5).toLocaleString(); // Approx 5 dreams per night
+            document.getElementById("meals").textContent = Math.round(totalDays * 3).toLocaleString(); // 3 meals per day
+            
+            // Calculate next birthday
+            calculateNextBirthday(dobMonth, dobDay, ageAtDate);
+        }
+        
+        function calculateNextBirthday(birthMonth, birthDay, ageAtDate) {
+            const currentYear = ageAtDate.getFullYear();
+            let nextBirthday = new Date(currentYear, birthMonth - 1, birthDay);
+            
+            // If birthday already passed this year, use next year
+            if (nextBirthday < ageAtDate) {
+                nextBirthday.setFullYear(currentYear + 1);
+            }
+            
+            const daysUntilBirthday = Math.ceil((nextBirthday - ageAtDate) / (1000 * 60 * 60 * 24));
+            document.getElementById("birthdayCountdown").textContent = `${daysUntilBirthday} days`;
+            
+            // Show the next birthday section
+            document.getElementById("nextBirthday").style.display = 'block';
+        }
+        
+        function resetForm() {
+            const currentDate = new Date();
+            setDateValues('dob', 1, 1, 2000);
+            setDateValues('ageAt', currentDate.getMonth() + 1, currentDate.getDate(), currentDate.getFullYear());
+            
+            updateDays('dob');
+            updateDays('ageAt');
+            
+            // Reset results
+            document.getElementById("mainAge").innerHTML = "-- <span>years</span>";
+            document.getElementById("exactAge").textContent = "-- years -- months -- days";
+            document.getElementById("months").textContent = "--";
+            document.getElementById("weeks").textContent = "--";
+            document.getElementById("days").textContent = "--";
+            document.getElementById("hours").textContent = "--";
+            
+            document.getElementById("sleeps").textContent = "--";
+            document.getElementById("heartbeats").textContent = "--";
+            document.getElementById("dreams").textContent = "--";
+            document.getElementById("meals").textContent = "--";
+            
+            document.getElementById("nextBirthday").style.display = 'none';
+        }
+        
+        function showError(message) {
+            alert(message);
+        }
+        
+        function toggleTheme() {
+            isDarkTheme = !isDarkTheme;
+            document.body.classList.toggle('dark-theme', isDarkTheme);
+            
+            const icon = document.querySelector('.theme-toggle i');
+            if (isDarkTheme) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        }
+    </script>
 </body>
 </html>
